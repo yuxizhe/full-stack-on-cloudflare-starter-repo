@@ -6,6 +6,22 @@ This document describes the D1 database schema and how to use it with Drizzle OR
 
 The project uses Cloudflare D1 database: `claude-test` (ID: `da1052c4-3afc-42e2-9dad-6eeeff54342b`)
 
+**Schema Source**: Pulled directly from remote D1 database using `wrangler d1 export`
+**Schema File**: `schema.sql` (exported SQL DDL)
+**Last Updated**: 2026-01-16
+
+## Database Indexes
+
+For optimal query performance, the following indexes are defined:
+
+- **link_clicks**:
+  - `idx_link_clicks_id` on `id`
+  - `idx_link_clicks_account_id` on `account_id`
+  - `idx_link_clicks_clicked_time` on `clicked_time`
+
+- **destination_evaluations**:
+  - `idx_destination_evaluations_account_time` on `(account_id, created_at)` (composite index)
+
 ## Tables
 
 ### 1. `links` - URL Shortening Links

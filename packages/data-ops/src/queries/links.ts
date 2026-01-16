@@ -47,9 +47,10 @@ export async function updateLink(
   data: Partial<Omit<NewLink, "linkId">>
 ): Promise<Link | undefined> {
   const db = getDb();
+  const now = new Date().toISOString().replace('T', ' ').split('.')[0];
   const result = await db
     .update(links)
-    .set({ ...data, updated: new Date() })
+    .set({ ...data, updated: now })
     .where(eq(links.linkId, linkId))
     .returning();
   return result[0];

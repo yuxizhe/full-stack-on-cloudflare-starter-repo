@@ -85,6 +85,7 @@ export async function getRecentClicks(
 ): Promise<LinkClick[]> {
   const db = getDb();
   const cutoffTime = new Date(Date.now() - hoursAgo * 60 * 60 * 1000);
+  const cutoffTimeStr = cutoffTime.toISOString().replace('T', ' ').split('.')[0];
 
   return await db
     .select()
@@ -92,7 +93,7 @@ export async function getRecentClicks(
     .where(
       and(
         eq(linkClicks.id, linkId),
-        gte(linkClicks.clickedTime, cutoffTime)
+        gte(linkClicks.clickedTime, cutoffTimeStr)
       )
     )
     .orderBy(desc(linkClicks.clickedTime));
