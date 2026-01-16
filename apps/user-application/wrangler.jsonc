@@ -14,4 +14,10 @@
   "observability": {
     "enabled": true,
   },
+  "services": [
+    {
+      "binding": "DATA_SERVICE",
+      "service": "data-service"
+    }
+  ]
 }

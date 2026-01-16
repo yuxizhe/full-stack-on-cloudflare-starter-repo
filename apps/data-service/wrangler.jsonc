@@ -11,4 +11,11 @@
 	"observability": {
 		"enabled": true,
 	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "claude-test",
+			"database_id": "da1052c4-3afc-42e2-9dad-6eeeff54342b"
+		}
+	]
 }
