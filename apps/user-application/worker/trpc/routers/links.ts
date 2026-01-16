@@ -13,7 +13,6 @@ import {
 } from "@repo/data-ops/queries/links";
 import {
   getClicksByAccount,
-  getClickCount,
   getClicksByCountry,
   getRecentClicks,
 } from "@repo/data-ops/queries/link-clicks";
@@ -193,16 +192,23 @@ export const linksTrpcRoutes = t.router({
     const links = await getLinksByAccount(accountId, 100);
 
     // Get links with clicks in last hour
-    const oneHourAgo = Date.now() - 60 * 60 * 1000;
     const activeLinks = [];
 
     for (const link of links) {
       const recentClicks = await getRecentClicks(link.linkId, 1);
       if (recentClicks.length > 0) {
+        // Find the most recent click
+        const sortedClicks = recentClicks.sort((a, b) => {
+          const timeA = typeof a.clickedTime === "string" ? a.clickedTime : String(a.clickedTime);
+          const timeB = typeof b.clickedTime === "string" ? b.clickedTime : String(b.clickedTime);
+          return timeB.localeCompare(timeA);
+        });
+
         activeLinks.push({
           linkId: link.linkId,
           name: link.name,
-          clicks: recentClicks.length,
+          clickCount: recentClicks.length,
+          lastClicked: sortedClicks[0].clickedTime,
         });
       }
     }
