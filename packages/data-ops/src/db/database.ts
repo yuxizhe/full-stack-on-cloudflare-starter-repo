@@ -1,4 +1,5 @@
 import { drizzle } from "drizzle-orm/d1";
+import * as schema from "./schema";
 
 let db: ReturnType<typeof drizzle>;
 
@@ -10,7 +11,7 @@ let db: ReturnType<typeof drizzle>;
  */
 export function initDatabase(bindingDb: D1Database) {
   if (db) return;
-  db = drizzle(bindingDb);
+  db = drizzle(bindingDb, { schema });
 }
 
 export function getDb() {
@@ -19,3 +20,6 @@ export function getDb() {
   }
   return db;
 }
+
+// Re-export schema for convenience
+export * from "./schema";
